@@ -17,7 +17,6 @@ public class UserController {
     // Example:
     @PostMapping("/users")
     public ResponseEntity<User> addUser(@RequestBody User user) {
-        System.out.println("Received user: " + user.getName() + ", Email: " + user.getEmail());
         return ResponseEntity.ok(userService.addUser(user));
     }
 }
