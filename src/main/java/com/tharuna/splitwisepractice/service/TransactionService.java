@@ -1,5 +1,6 @@
 package com.tharuna.splitwisepractice.service;
 
+import com.tharuna.splitwisepractice.dto.response.TransactionResponseDto;
 import com.tharuna.splitwisepractice.model.Expense;
 import com.tharuna.splitwisepractice.model.PaymentLedger;
 import com.tharuna.splitwisepractice.model.Transaction;
@@ -23,7 +24,7 @@ public class TransactionService {
     @Autowired
     public GroupService groupService;
 
-    public List<Transaction> getTransactoinForGroup(Long groupId) {
+    public List<TransactionResponseDto> getTransactoinForGroup(Long groupId) {
         List<Expense> expenses = groupService.findExpenseList(groupId);
         Map<Long,Double> balanceMap = new HashMap<>();
 
@@ -80,6 +81,22 @@ public class TransactionService {
                 maxHeap.offer(creditor);
             }
         }
-        return transactionRepository.saveAll(transactions);
+
+
+       transactionRepository.saveAll(transactions);
+
+        return mapToTransactionResponseDto(transactions);
+    }
+
+    private List<TransactionResponseDto> mapToTransactionResponseDto(List<Transaction> transactions){
+        List<TransactionResponseDto> transactionResponseDtos = new ArrayList<>();
+        for(Transaction t: transactions){
+            TransactionResponseDto dto = new TransactionResponseDto();
+            dto.setFromUser(t.getSender().getName());
+            dto.setToUser(t.getReceiver().getName());
+            dto.setAmount(t.getAmount());
+            transactionResponseDtos.add(dto);
+        }
+        return transactionResponseDtos;
     }
 }
