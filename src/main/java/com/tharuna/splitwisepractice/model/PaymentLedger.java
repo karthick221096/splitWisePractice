@@ -7,9 +7,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"expense_id", "user_id"})
+        }
+)
 public class PaymentLedger extends BaseClass{
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @ManyToOne
     @JoinColumn(name = "expense_id", nullable = false)

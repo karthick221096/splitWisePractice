@@ -1,9 +1,6 @@
 package com.tharuna.splitwisepractice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,17 +15,6 @@ public class Expense extends BaseClass {
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
-    @OneToMany(mappedBy = "expense")
+    @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PaymentLedger> paymentLedgers;
 }
-
-
-/*
-expense group
-1        1
-m        1
-
-expense paymentLedge
-1        m
-1        1
- */

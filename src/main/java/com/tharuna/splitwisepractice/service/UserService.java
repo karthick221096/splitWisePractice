@@ -6,6 +6,8 @@ import com.tharuna.splitwisepractice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -20,4 +22,9 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("User not found with id: " + id));
     }
+
+    public List<User> findAllByIds(List<Long> ids) {
+        return userRepository.findAllById(ids);
+    }
+
 }
